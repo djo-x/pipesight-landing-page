@@ -1,0 +1,45 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "'([^']*)'"],
+    ["cn\\(([^)]*)\\)", "\"([^\"]*)\""]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#f8c8f0",
+    "activityBar.background": "#f8c8f0",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#798d12",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#f8c8f0",
+    "statusBar.background": "#f39be3",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#ee6dd6",
+    "statusBarItem.remoteBackground": "#f39be3",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#f39be3",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#f39be399",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#f39be3"
+}
