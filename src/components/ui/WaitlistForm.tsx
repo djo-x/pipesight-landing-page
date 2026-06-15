@@ -45,7 +45,7 @@ export default function WaitlistForm() {
       <form className="waitlist" noValidate onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="your@company.com"
+          placeholder="you@company.com"
           aria-label="Email address"
           autoComplete="email"
           value={email}
@@ -69,7 +69,7 @@ export default function WaitlistForm() {
       <p className={msgClass} role="status">
         {message}
       </p>
-      <p className="form-note">No credit card. No spam. Cancel anytime.</p>
+      <p className="form-note">No credit card · read-only token · cancel anytime</p>
     </>
   )
 }

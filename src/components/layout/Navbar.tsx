@@ -13,13 +13,13 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav className={scrolled ? 'scrolled' : ''}>
+    <nav id="nav" className={scrolled ? 'scrolled' : ''}>
       <div className="wrap nav-inner">
         <a href="#top" className="brand" aria-label="Pipesight home">
           <svg
             className="mark"
-            width="32"
-            height="32"
+            width="30"
+            height="30"
             viewBox="0 0 32 32"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -66,13 +66,16 @@ export default function Navbar() {
           <span className="wordmark">Pipesight</span>
         </a>
         <div className="nav-right">
-          <a href="#how-it-works" className="nav-link hide-sm">
-            How it works
+          <a href="#features" className="nav-link hide-sm">
+            Features
+          </a>
+          <a href="#alert" className="nav-link hide-sm">
+            The alert
           </a>
           <a href="#pricing" className="nav-link hide-sm">
             Pricing
           </a>
-          <a href="#waitlist-top" className="btn btn-lime btn-sm">
+          <a href="#join" className="btn btn-lime btn-sm">
             Join waitlist
           </a>
         </div>

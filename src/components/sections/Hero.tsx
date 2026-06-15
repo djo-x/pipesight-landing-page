@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import WaitlistForm from '@/components/ui/WaitlistForm'
 
 interface Packet {
@@ -22,11 +23,13 @@ interface Ring {
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const windowRef = useRef<HTMLDivElement>(null)
+  const alertRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const maybeCanvas = canvasRef.current
     if (!maybeCanvas || !maybeCanvas.getContext) return
-    const canvas = maybeCanvas // narrowed to HTMLCanvasElement for closure capture
+    const canvas = maybeCanvas
 
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     const ctx = canvas.getContext('2d')!
@@ -59,10 +62,9 @@ export default function Hero() {
     }
 
     function spawn() {
-      const lane = Math.floor(Math.random() * LANE_N)
       packets.push({
         x: -30,
-        lane,
+        lane: Math.floor(Math.random() * LANE_N),
         speed: 0.55 + Math.random() * 0.85,
         r: 2.4 + Math.random() * 2.2,
         failed: Math.random() < 0.26,
@@ -109,18 +111,16 @@ export default function Hero() {
 
     function frame(now: number) {
       ctx.clearRect(0, 0, W, H)
-
       ctx.strokeStyle = `rgba(${COL_BONE},0.04)`
       ctx.lineWidth = 1
-      const gap = 64
-      const off = (now * 0.012) % gap
+      const gap = 64,
+        off = (now * 0.012) % gap
       for (let gx = -off; gx < W; gx += gap) {
         ctx.beginPath()
         ctx.moveTo(gx, 0)
         ctx.lineTo(gx, H)
         ctx.stroke()
       }
-
       for (let l = 0; l < LANE_N; l++) {
         ctx.strokeStyle = `rgba(${COL_BONE},0.10)`
         ctx.lineWidth = 1
@@ -129,12 +129,10 @@ export default function Hero() {
         ctx.lineTo(W, lanes[l])
         ctx.stroke()
       }
-
       if (now - lastSpawn > 360) {
         spawn()
         lastSpawn = now
       }
-
       ctx.strokeStyle = `rgba(${COL_LIME},0.16)`
       ctx.lineWidth = 1
       ctx.beginPath()
@@ -146,13 +144,11 @@ export default function Hero() {
         const pk = packets[p]
         pk.x += pk.speed
         const py = lanes[pk.lane]
-
         if (pk.failed && !pk.caught && pk.x >= reticleX) {
           pk.caught = true
           pk.flare = 1
           rings.push({ x: reticleX, y: py, r: 6, a: 1 })
         }
-
         const col = pk.failed && pk.caught ? COL_CORAL : COL_BONE
         const grad = ctx.createLinearGradient(pk.x - 22, 0, pk.x, 0)
         grad.addColorStop(0, `rgba(${col},0)`)
@@ -163,7 +159,6 @@ export default function Hero() {
         ctx.moveTo(pk.x - 22, py)
         ctx.lineTo(pk.x, py)
         ctx.stroke()
-
         const headCol = pk.failed && pk.caught ? COL_CORAL : pk.failed ? COL_BONE : COL_LIME
         const glow = pk.flare > 0 ? pk.flare : 0.5
         ctx.fillStyle = `rgba(${headCol},0.95)`
@@ -174,7 +169,6 @@ export default function Hero() {
         ctx.fill()
         ctx.shadowBlur = 0
         if (pk.flare > 0) pk.flare *= 0.92
-
         if (pk.x > W + 30) packets.splice(p, 1)
       }
       if (packets.length > 60) packets.splice(0, packets.length - 60)
@@ -190,10 +184,7 @@ export default function Hero() {
         ctx.stroke()
         if (rg.a < 0.03) rings.splice(r, 1)
       }
-
-      const ry = H * 0.5 + Math.sin(now * 0.0009) * (H * 0.18)
-      drawReticle(reticleX, ry)
-
+      drawReticle(reticleX, H * 0.5 + Math.sin(now * 0.0009) * (H * 0.18))
       rafId = requestAnimationFrame(frame)
     }
 
@@ -220,31 +211,78 @@ export default function Hero() {
     }
   }, [])
 
+  useEffect(() => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    if (reduce) return
+    const win = windowRef.current
+    const alert = alertRef.current
+
+    function onScroll() {
+      const p = window.scrollY / window.innerHeight
+      if (win)
+        win.style.transform = `rotateY(${-13 + p * 5 * 0.6}deg) rotateX(${5 - p * 3 * 0.6}deg) translateY(${p * 36 * 0.6}px)`
+      if (alert) alert.style.transform = `translateY(${p * -54 * 0.6}px)`
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <section className="hero">
       <canvas ref={canvasRef} id="hero-canvas" aria-hidden="true" />
-      <div className="hero-scrim" />
-      <div className="wrap">
-        <div className="hero-inner">
-          <h1>
-            Your Databricks jobs are <span className="coral-word">failing.</span> You just
-            don&apos;t know it yet.
+      <div className="hero-scrim" aria-hidden="true" />
+      <div className="wrap hero-grid">
+        <div className="hero-copy">
+          <span className="pill" data-reveal>
+            <span className="dot" />
+            Private beta · first 50 teams get 3 months Pro free
+          </span>
+          <h1 data-reveal>
+            Your Databricks jobs are <span className="coral-word">failing.</span>
+            <span className="hl-line">
+              You just don&apos;t know it <em>yet.</em>
+            </span>
           </h1>
-          <p className="sub">
-            Pipesight watches your pipelines 24/7 and fires a clean alert the instant a job fails —
-            before your data is late and your stakeholders are already asking questions.
+          <p className="sub" data-reveal>
+            Pipesight watches every pipeline run and fires a clean Slack alert the instant a job
+            fails — before your data is late and the questions start.
           </p>
-          <WaitlistForm />
-          <p className="built">
-            Built by a data engineer who lost 3 days to a silent pipeline failure.
-          </p>
+          <div data-reveal>
+            <WaitlistForm />
+          </div>
+        </div>
+
+        <div className="hero-stage" aria-hidden="true">
+          <div className="hero-window" ref={windowRef}>
+            <div className="win-bar">
+              <span className="dotrow">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="win-title">pipesight — dashboard</span>
+            </div>
+            <div className="win-shot">
+              <Image
+                src="/shot-dashboard.jpg"
+                alt=""
+                width={720}
+                height={450}
+                priority
+                style={{ display: 'block', width: '100%', height: 'auto' }}
+              />
+            </div>
+          </div>
+          <div className="hero-alert" ref={alertRef}>
+            <span className="ha-dot" />
+            <div className="ha-body">
+              <b>fct_orders_daily</b> failed
+              <span>caught 03:14 · alert sent</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="scroll-cue" aria-hidden="true">
-        <span>scroll</span>
-        <span className="bar" />
-      </div>
-      <span id="waitlist-top" />
     </section>
   )
 }

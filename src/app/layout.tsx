@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { Instrument_Serif, IBM_Plex_Mono } from 'next/font/google'
 import RevealObserver from '@/components/RevealObserver'
+import HudFrame from '@/components/HudFrame'
 import './globals.css'
 
 const instrumentSerif = Instrument_Serif({
@@ -20,14 +21,40 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: 'Pipesight — Catch every Databricks failure the moment it happens',
-  description: "Your Databricks jobs are failing. You just don't know it yet.",
+  description:
+    'Pipesight watches your Databricks pipelines 24/7 and fires a clean Slack alert the instant a job fails — before your data is late and the questions start.',
   metadataBase: new URL('https://pipesight.co'),
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: 'website',
+    url: 'https://pipesight.co',
+    siteName: 'Pipesight',
+    title: 'Pipesight — Catch every Databricks failure the moment it happens',
+    description:
+      'Pipesight watches your Databricks pipelines 24/7 and fires a clean Slack alert the instant a job fails — before your data is late and the questions start.',
+    images: [
+      {
+        url: '/shot-dashboard.jpg',
+        width: 1200,
+        height: 750,
+        alt: 'Pipesight monitoring dashboard',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pipesight — Catch every Databricks failure the moment it happens',
+    description:
+      'Pipesight watches your Databricks pipelines 24/7 and fires a clean Slack alert the instant a job fails.',
+    images: ['/shot-dashboard.jpg'],
+  },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${ibmPlexMono.variable}`}>
-      <body>
+      <body data-vibe="cockpit">
+        <HudFrame />
         {children}
         <RevealObserver />
       </body>
