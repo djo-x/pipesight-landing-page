@@ -69,7 +69,7 @@ export default function WaitlistForm() {
       <p className={msgClass} role="status">
         {message}
       </p>
-      <p className="form-note">No credit card · read-only token · cancel anytime</p>
+      <p className="form-note">No credit card · reads job-run status only · cancel anytime</p>
     </>
   )
 }

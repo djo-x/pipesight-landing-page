@@ -1,9 +1,8 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Hero from '@/components/sections/Hero'
-import Stats from '@/components/sections/Stats'
-import Features from '@/components/sections/Features'
-import TheAlert from '@/components/sections/TheAlert'
+import Cockpit from '@/components/sections/Cockpit'
+import ProblemSolution from '@/components/sections/ProblemSolution'
 import Pricing from '@/components/sections/Pricing'
 import Cta from '@/components/sections/Cta'
 
@@ -13,9 +12,8 @@ export default function Home() {
       <Navbar />
       <span id="top" />
       <Hero />
-      <Stats />
-      <Features />
-      <TheAlert />
+      <Cockpit />
+      <ProblemSolution />
       <Pricing />
       <Cta />
       <Footer />

@@ -7,8 +7,8 @@ export default function Features() {
           <span className="eyebrow center">What Pipesight does</span>
           <h2>Everything you need to never miss a failure. Nothing you don&apos;t.</h2>
           <p className="lead">
-            Connect one read-only token and Pipesight watches every Databricks job around the clock
-            — so a 3am failure reaches you in seconds, not hours.
+            Paste a Databricks token and Pipesight watches every job around the clock — reading only
+            job-run status, so a 3am failure reaches you in seconds, not hours.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export default function Features() {
             </span>
             <h3>Two-minute setup</h3>
             <p>
-              Paste one <b>read-only token</b> — zero agents, zero infra. Every job is
+              Paste one <b>Databricks token</b> — zero agents, zero infra. Every job is
               auto-discovered, so you pick what to monitor instead of wiring alerts by hand.
             </p>
           </div>

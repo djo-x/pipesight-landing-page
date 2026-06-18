@@ -2,30 +2,25 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const ERROR_TEXT = "AnalysisException: Column 'order_total' not found"
+const ERROR_TEXT = 'PythonException: Job aborted due to stage failure'
 
 export default function TheAlert() {
-  const [typed, setTyped] = useState('')
+  const [typed, setTyped] = useState(ERROR_TEXT)
   const [showCursor, setShowCursor] = useState(false)
-  const errRef = useRef<HTMLSpanElement>(null)
+  const rowsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-    if (reduce) {
-      setTyped(ERROR_TEXT)
-      return
-    }
+    if (reduce) return
 
-    const el = errRef.current
-    if (!el || !('IntersectionObserver' in window)) {
-      setTyped(ERROR_TEXT)
-      return
-    }
+    const el = rowsRef.current
+    if (!el || !('IntersectionObserver' in window)) return
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
+            setTyped('')
             setShowCursor(true)
             let n = 0
             const typ = setInterval(() => {
@@ -35,12 +30,12 @@ export default function TheAlert() {
                 clearInterval(typ)
                 setTimeout(() => setShowCursor(false), 900)
               }
-            }, 26)
+            }, 30)
             io.disconnect()
           }
         })
       },
-      { threshold: 0.6 }
+      { threshold: 0.4 }
     )
     io.observe(el)
     return () => io.disconnect()
@@ -66,7 +61,7 @@ export default function TheAlert() {
               <span className="slack-time">03:14</span>
             </div>
             <hr className="slack-rule" />
-            <div className="slack-rows">
+            <div className="slack-rows" ref={rowsRef}>
               <span className="k">Job:</span>
               <span className="v">fct_orders_daily</span>
               <span className="k">Status:</span>
@@ -74,7 +69,7 @@ export default function TheAlert() {
               <span className="k">Workspace:</span>
               <span className="v">acme · production</span>
               <span className="k">Error:</span>
-              <span className="v err" ref={errRef}>
+              <span className="v err" suppressHydrationWarning>
                 {typed}
                 {showCursor && <span className="cursor" />}
               </span>

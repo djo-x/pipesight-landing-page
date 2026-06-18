@@ -1,9 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+  const onHome = pathname === '/'
+  // On the home page keep in-page anchors (smooth scroll); elsewhere link back home.
+  const to = (hash: string) => (onHome ? `#${hash}` : `/#${hash}`)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -15,7 +20,7 @@ export default function Navbar() {
   return (
     <nav id="nav" className={scrolled ? 'scrolled' : ''}>
       <div className="wrap nav-inner">
-        <a href="#top" className="brand" aria-label="Pipesight home">
+        <a href={onHome ? '#top' : '/'} className="brand" aria-label="Pipesight home">
           <svg
             className="mark"
             width="30"
@@ -66,16 +71,13 @@ export default function Navbar() {
           <span className="wordmark">Pipesight</span>
         </a>
         <div className="nav-right">
-          <a href="#features" className="nav-link hide-sm">
+          <a href={to('features')} className="nav-link hide-sm">
             Features
           </a>
-          <a href="#alert" className="nav-link hide-sm">
-            The alert
-          </a>
-          <a href="#pricing" className="nav-link hide-sm">
+          <a href={to('pricing')} className="nav-link hide-sm">
             Pricing
           </a>
-          <a href="#join" className="btn btn-lime btn-sm">
+          <a href={to('join')} className="btn btn-lime btn-sm">
             Join waitlist
           </a>
         </div>

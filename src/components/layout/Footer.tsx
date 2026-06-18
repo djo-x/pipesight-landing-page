@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer>
@@ -35,8 +37,8 @@ export default function Footer() {
         <span className="mid">Built for data engineers who&apos;ve had enough.</span>
         <span className="foot-links">
           <span>© 2026</span>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
         </span>
       </div>
     </footer>
