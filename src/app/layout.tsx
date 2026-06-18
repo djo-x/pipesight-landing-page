@@ -1,21 +1,20 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { Instrument_Serif, IBM_Plex_Mono } from 'next/font/google'
+import { Inter, IBM_Plex_Mono } from 'next/font/google'
 import RevealObserver from '@/components/RevealObserver'
 import HudFrame from '@/components/HudFrame'
 import './globals.css'
 
-const instrumentSerif = Instrument_Serif({
+const inter = Inter({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-serif',
+  variable: '--font-sans',
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500'],
   variable: '--font-mono',
 })
 
@@ -52,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable}`}>
       <body data-vibe="cockpit">
         <HudFrame />
         {children}
