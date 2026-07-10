@@ -1,20 +1,18 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { Inter, IBM_Plex_Mono } from 'next/font/google'
-import RevealObserver from '@/components/RevealObserver'
-import HudFrame from '@/components/HudFrame'
+import { Bricolage_Grotesque, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-sans',
+  weight: ['700', '800'],
+  variable: '--font-display',
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
   variable: '--font-mono',
 })
 
@@ -51,12 +49,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable}`}>
-      <body data-vibe="cockpit">
-        <HudFrame />
-        {children}
-        <RevealObserver />
-      </body>
+    <html lang="en" className={`${bricolage.variable} ${ibmPlexMono.variable}`}>
+      <body>{children}</body>
     </html>
   )
 }
